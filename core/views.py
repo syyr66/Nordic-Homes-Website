@@ -7,3 +7,9 @@ def home(request):
     products = Product.objects.all()[:8]
 
     return render(request, "core/home.html", {'products': products})
+
+
+def shop(request):
+    products = Product.objects.all()[:8]
+
+    return render(request, "core/shop.html", {'products': products})
