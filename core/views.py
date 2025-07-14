@@ -10,11 +10,20 @@ def home(request):
 
 
 def shop(request):
-    products = Product.objects.all()[:8]
-    categories = Category.objects.all()
+    active_category = request.GET.get('category', '')
 
-    return render(request, "core/shop.html", {
+    categories = Category.objects.all() 
+
+    if active_category:
+        products = Product.objects.filter(category__slug=active_category)
+    else:
+        products = Product.objects.all()[:8]
+    
+    context = {
         'products': products,
-        'categories': categories
-    })
+        'categories': categories,
+        'active_category': active_category,
+    }        
+
+    return render(request, "core/shop.html", context)
         
