@@ -17,7 +17,7 @@ class Cart(object):
             self.cart[str(p)]['product'] = Product.objects.get(pk=p)
 
     def __len__(self):
-        return sum(item['quantity' for item in self.cart.values()])
+        return sum(item['quantity'] for item in self.cart.values())
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
@@ -27,7 +27,7 @@ class Cart(object):
         product_id = str(product_id)
 
         if product_id not in self.cart:
-            self.cart[product_id] = {'id': product_id, 'qunatity': 1, }
+            self.cart[product_id] = {'id': product_id, 'quantity': 1, }
 
         if update_quantity:
             self.cart[product_id]['quantity'] += int(quantity)
