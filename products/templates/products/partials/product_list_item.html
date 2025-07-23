@@ -6,6 +6,10 @@
 <a href="{% url 'products:product_detail' product.slug %}">
     <img class="md:hidden rounded-xl hover:shadow-lg h-80 w-full object-cover" src="{{ product.image.url }}" alt="{{ product.slug }}">
 </a>
+{% else %}
+<a href="{% url 'products:product_detail' product.slug %}">
+    <img class="rounded-xl hover:shadow-lg h-80 w-full object-cover" src="{{ product.get_thumbnail }}" alt="{{ product.slug }}">
+</a>
 {% endif %}
 
 <div class="pt-3 flex items-center justify-between">

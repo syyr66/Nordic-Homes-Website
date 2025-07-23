@@ -5,6 +5,8 @@
     <div class="w-full mb-6 lg:mb-0 lg:w-3/5">
         {% if product.image %}
         <img class="rounded-xl w-2/4 mx-auto" src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+        <img class="rounded-xl w-2/4 mx-auto" src="{{ product.get_thumbnail }}" alt="{{ product.name }}">
         {% endif %}
     </div>
 
