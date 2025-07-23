@@ -1,9 +1,11 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto flex flex-wrap py-6 px-6 xl:px-0">
+<div class="max-w-6xl mx-auto flex flex-wrap lg:justify-between py-6 px-6 xl:px-0">
     <div class="w-full mb-6 lg:mb-0 lg:w-3/5">
-        <img class="rounded-xl" src="" alt="">
+        {% if product.image %}
+        <img class="rounded-xl w-2/4 mx-auto" src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% endif %}
     </div>
 
     <div class="w-full lg:w-2/5 lg:p-6">
