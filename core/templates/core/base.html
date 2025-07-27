@@ -15,6 +15,17 @@
                 <ul class="flex items-center space-x-4">
                     <li><a href="{% url 'core:shop' %}">Shop</a></li>
                     <li><a href="#">About</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li>
+                        <form method="post" action="{% url 'core:logout_user' %}">
+                            {% csrf_token %}
+                            <button type="submit">Log out</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li><a href="{% url 'core:login_user' %}">Log in</a><span class="text-purple-500"> | </span><a href="{% url 'core:signup_user' %}">Sign up</a></li>
+                    {% endif %}
+                    
                 </ul>
             </div>
 

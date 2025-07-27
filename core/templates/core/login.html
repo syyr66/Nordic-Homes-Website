@@ -5,18 +5,35 @@
     <div class="w-full bg-gray-100 p-6 rounded-xl">
         <h1 class="mb-6 text-2xl font-medium">Log in</h1>
 
-        <form action="post" autocomplete="off" action="." class="space-y-3">
+        <form method="post" autocomplete="off" action="." class="space-y-3">
+            {% csrf_token %}
+
+            {% for f in form %}
             <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" class="w-full mt-2 py-4 px-6 bg-white rounded-xl" autocomplete="off">
+                <label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}
             </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" class="w-full mt-2 py-4 px-6 bg-white rounded-xl" autocomplete="off">
-            </div>
+
+            {% if f.errors %}
             <div class="p-6 bg-red-200 text-red-800 rounded-xl">
-                <p>This en error!</p>
+                {% for error in f.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
             </div>
+            {% endif %}
+
+            {% endfor %}
+
+
+            {% if form.non_field_errors %}
+            <div class="p-6 bg-red-200 text-red-800 rounded-xl">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
             <div>
                 <button type="submit" class="py-4 px-6 rounded-xl text-white bg-purple-500 hover:bg-purple-700 font-medium">Submit</button>
             </div>

@@ -1,7 +1,12 @@
+from django.contrib.auth import login, get_user_model
+from django.contrib.auth.views import LoginView
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic import CreateView
 
 from products.models import Product, Category
+
+from .forms import SignUpForm, LogInForm
 
 
 def home(request):
@@ -34,8 +39,22 @@ def shop(request):
     return render(request, "core/shop.html", context)
         
 
-def signup(request):
-    return render(request, "core/signup.html")
+def signup_user(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
 
-def login(request):
-    return render(request, "core/login.html")
+        if form.is_valid():
+            user = form.save()
+
+            login(request, user)
+
+            return redirect('/')
+    else:
+        form = SignUpForm()
+
+    return render(request, "core/signup.html", {"form": form})
+
+
+class LoginUser(LoginView):
+    template_name = "core/login.html"
+    authentication_form = LogInForm
