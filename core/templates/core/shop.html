@@ -47,7 +47,7 @@
                 {% endif %}
                                 
                 <div class="pt-3 flex items-center justify-between">
-                    <a href="{% url 'products:product_detail' product.slug %}">{{ product.name }}</a>
+                    <a href="{% url 'products:product_detail' product.slug %}">{{ product.name|truncatewords:6 }}</a>
                     <a
                         hx-get="{% url 'cart:add_to_cart' product.id %}"
                         hx-target="#menu-cart-button"
