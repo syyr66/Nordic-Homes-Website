@@ -16,7 +16,7 @@ def add_to_cart(request, product_id):
 
 
 def cart(request):
-    return render(request, 'cart/cart.html')
+    return render(request, 'cart/cart.html', {'title' : 'Cart overview'})
 
 def checkout(request):
-    return render(request, "cart/checkout.html")
+    return render(request, "cart/checkout.html", {'title' : 'Checkout'})

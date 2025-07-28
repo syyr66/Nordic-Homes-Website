@@ -12,7 +12,10 @@ from .forms import SignUpForm, LogInForm
 def home(request):
     products = Product.objects.all()[:8]
 
-    return render(request, "core/home.html", {'products': products})
+    return render(request, "core/home.html", {
+        'products': products,
+        'title': 'Home'
+    })
 
 
 def shop(request):
@@ -31,6 +34,7 @@ def shop(request):
 
 
     context = {
+        'title': 'Shopping',
         'products': products,
         'categories': categories,
         'active_category': active_category,
@@ -52,9 +56,15 @@ def signup_user(request):
     else:
         form = SignUpForm()
 
-    return render(request, "core/signup.html", {"form": form})
+    return render(request, "core/signup.html", {
+        "form": form, 
+        "title": 'Sign up',
+    })
 
 
 class LoginUser(LoginView):
     template_name = "core/login.html"
     authentication_form = LogInForm
+    extra_context = {
+        'title': 'Log in',
+    }
