@@ -23,7 +23,7 @@ def cart(request):
         'next_page': reverse('cart:checkout'),
     })
 
-@login_required(login_url="/login/")
+@login_required()
 def checkout(request):
     return render(request, "cart/checkout.html", {
         'title' : 'Checkout',
