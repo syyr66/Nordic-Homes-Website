@@ -6,7 +6,5 @@
         <span class="font-semibold">Total</span>
         <span>${{ cart.get_total_cost }}</span>
     </div>
-    {% with order_detail_url|default:checkout_form_url as final_url %}
-    <a href="{{ final_url }}" class="inline-block px-6 py-3 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Checkout</a>
-    {% endwith %}
+    <a href="{% if next_page %} {{ next_page }} {% else %} {% url 'core:home' %} {% endif %}" class="inline-block px-6 py-3 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Checkout</a>
 </div>
