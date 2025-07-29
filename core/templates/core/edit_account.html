@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit account{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto p-6 xl:px-0">
+    <h1 class="mb-5 text-3xl">Edit account</h1>
+    <div class="mb-5 space-y-3">
+        <label for="" class="inline-block w-32">Username: </label><input type="text" disabled class="inline-block w-80 mt-2 py-2 px-4 text-purple-800 bg-white border border-purple-500 rounded-md" value="{{ request.user.username }}">
+        <br>
+        <label for="" class="inline-block w-32">Email: </label><input type="email" disabled class="inline-block w-80 mt-2 py-2 px-4 text-purple-800 bg-white border border-purple-500 rounded-md" value="{{ request.user.email }}">
+        <br>    
+        <label for="" class="inline-block w-32">First name: </label><input type="text" class="inline-block w-80 mt-2 py-2 px-4 bg-white border border-gray-500 rounded-md focus:outline focus:outline-offset-1 focus:outline-cyan-100" value="{{ request.user.first_name }}">
+        <br>
+        <label for="" class="inline-block w-32">Last name: </label><input type="text" class="inline-block w-80 mt-2 py-2 px-4 bg-white border border-gray-500 rounded-md focus:outline focus:outline-offset-1 focus:outline-cyan-100" value="{{ request.user.last_name }}">
+        <br>
+    </div>
+    <a href="{% url 'core:my_account' %}" class="inline-block py-2 px-4 rounded-md bg-purple-500 hover:bg-purple-700 text-white">Save</a>
+</div>
+{% endblock %}

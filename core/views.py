@@ -70,6 +70,14 @@ class LoginUser(LoginView):
         'title': 'Log in',
     }
 
+
 @login_required
 def myaccount(request):
     return render(request, 'core/myaccount.html')
+
+
+@login_required
+def edit_account(request):
+    return render(request, 'core/edit_account.html')
+
+
