@@ -1,4 +1,5 @@
 from django.contrib.auth import login, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
 from django.shortcuts import render, redirect
@@ -68,3 +69,7 @@ class LoginUser(LoginView):
     extra_context = {
         'title': 'Log in',
     }
+
+@login_required
+def myaccount(request):
+    return render(request, 'core/myaccount.html')
