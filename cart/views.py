@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .cart import Cart
 
@@ -16,7 +18,14 @@ def add_to_cart(request, product_id):
 
 
 def cart(request):
-    return render(request, 'cart/cart.html', {'title' : 'Cart overview'})
+    return render(request, 'cart/cart.html', {
+        'title' : 'Cart overview',
+        'checkout_form_url': reverse('cart:checkout'),
+    })
 
+@login_required(login_url="/login/")
 def checkout(request):
-    return render(request, "cart/checkout.html", {'title' : 'Checkout'})
+    return render(request, "cart/checkout.html", {
+        'title' : 'Checkout',
+        'order_detail_url': reverse('core:home'), #Home page because i don't have order_detail view yet
+    })
