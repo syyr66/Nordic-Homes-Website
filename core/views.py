@@ -4,10 +4,11 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
+from django.views.decorators.http import require_http_methods
 
 from products.models import Product, Category
 
-from .forms import SignUpForm, LogInForm
+from .forms import SignUpForm, LogInForm, EditAccountForm, AccountForm
 
 
 def home(request):
@@ -71,13 +72,28 @@ class LoginUser(LoginView):
     }
 
 
+@require_http_methods(['GET'])
 @login_required
 def myaccount(request):
-    return render(request, 'core/myaccount.html')
+    form = AccountForm(instance=request.user)
+    
+    return render(request, 'core/myaccount.html', {'form': form})
 
 
+@require_http_methods(['GET', 'POST'])
 @login_required
 def edit_account(request):
-    return render(request, 'core/edit_account.html')
+    if request.method == 'POST':
+        form = EditAccountForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+
+            return redirect('core:my_account')
+    else:
+        form = EditAccountForm(instance=request.user)
+
+    return render(request, 'core/edit_account.html', {'form': form})
 
 

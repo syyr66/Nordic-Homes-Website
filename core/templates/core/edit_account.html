@@ -5,16 +5,35 @@
 {% block content %}
 <div class="max-w-6xl mx-auto p-6 xl:px-0">
     <h1 class="mb-5 text-3xl">Edit account</h1>
-    <div class="mb-5 space-y-3">
-        <label for="" class="inline-block w-32">Username: </label><input type="text" disabled class="inline-block w-80 mt-2 py-2 px-4 text-purple-800 bg-white border border-purple-500 rounded-md" value="{{ request.user.username }}">
+
+    <form class="space-y-3" method="post" action="{% url 'core:edit_account' %}" autocomplete="off">
+        {% csrf_token %}
+
+        {% for f in form %}
+        <label for="{{ f.id_for_label }}" class="inline-block w-32">{{ f.label }}: </label>{{ f }}
         <br>
-        <label for="" class="inline-block w-32">Email: </label><input type="email" disabled class="inline-block w-80 mt-2 py-2 px-4 text-purple-800 bg-white border border-purple-500 rounded-md" value="{{ request.user.email }}">
-        <br>    
-        <label for="" class="inline-block w-32">First name: </label><input type="text" class="inline-block w-80 mt-2 py-2 px-4 bg-white border border-gray-500 rounded-md focus:outline focus:outline-offset-1 focus:outline-cyan-100" value="{{ request.user.first_name }}">
-        <br>
-        <label for="" class="inline-block w-32">Last name: </label><input type="text" class="inline-block w-80 mt-2 py-2 px-4 bg-white border border-gray-500 rounded-md focus:outline focus:outline-offset-1 focus:outline-cyan-100" value="{{ request.user.last_name }}">
-        <br>
-    </div>
-    <a href="{% url 'core:my_account' %}" class="inline-block py-2 px-4 rounded-md bg-purple-500 hover:bg-purple-700 text-white">Save</a>
+
+        {% if f.errors %}
+        <div class="w-[28rem] py-2 px-4 bg-red-200 text-red-800 rounded-md">
+            {% for error in f.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+        <div class="w-[28rem] py-2 px-4 bg-red-200 text-red-800 rounded-md">
+            <ul>
+                {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <button type="submit" class="inline-block mt-5 py-2 px-4 rounded-md bg-purple-500 hover:bg-purple-700 text-white">Save</a>
+    </form>
 </div>
 {% endblock %}
