@@ -89,11 +89,9 @@ class EditAccountForm(AccountForm):
     def __init__(self, *args, **kwargs):
         super(AccountForm, self).__init__(*args, **kwargs)
 
-        self.fields['email'].disabled = True
-        self.fields['username'].disabled = True
-
         if self.instance:
             self.fields['first_name'].widget.attrs['placeholder'] = self.instance.first_name or 'Enter your first name'
+            self.fields['email'].widget.attrs['placeholder'] = self.instance.email or 'Enter your email'
             self.fields['last_name'].widget.attrs['placeholder'] = self.instance.last_name or 'Enter your last name'
 
 
@@ -101,8 +99,8 @@ class EditAccountForm(AccountForm):
         model = get_user_model()
         fields = ['username', 'email', 'first_name', 'last_name']
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'inline-block w-80 mt-2 py-2 px-4 text-purple-800 bg-white border border-purple-500 rounded-md'}),
-            'email': forms.TextInput(attrs={'class': 'inline-block w-80 mt-2 py-2 px-4 text-purple-800 bg-white border border-purple-500 rounded-md'}),
+            'username': forms.TextInput(attrs={'class': 'inline-block w-80 mt-2 py-2 px-4 bg-white border border-gray-300 rounded-md'}),
+            'email': forms.TextInput(attrs={'class': 'inline-block w-80 mt-2 py-2 px-4 bg-white border border-gray-300 rounded-md'}),
             'first_name': forms.TextInput(attrs={'class': 'inline-block w-80 mt-2 py-2 px-4 bg-white border border-gray-300 rounded-md'}),
             'last_name': forms.TextInput(attrs={'class': 'inline-block w-80 mt-2 py-2 px-4 bg-white border border-gray-300 rounded-md'}),
         }
