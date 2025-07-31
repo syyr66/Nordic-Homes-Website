@@ -59,9 +59,11 @@ def update_cart(request, product_id, action):
 def checkout(request):
     return render(request, "cart/checkout.html", {
         'title' : 'Checkout',
-        'next_page': reverse('core:home'), #Home page because i don't have order_detail view yet
     })
 
 
 def hx_menu_cart(request):
     return render(request, 'cart/menu_cart.html')
+
+def hx_summary(request):
+    return render(request, 'cart/partials/summary.html')

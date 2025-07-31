@@ -8,7 +8,9 @@
         {% include 'cart/partials/cart_item.html' %}
     {% endfor %}
     
+    <div hx-get="{% url 'cart:hx_summary' %}" hx-trigger="update-menu-cart from:body" hx-swap="outerHTML" hx-target=".summary"></div>
     {% include 'cart/partials/summary.html' %}
+
 </div>
 {% endblock %}
 
