@@ -66,4 +66,5 @@ def hx_menu_cart(request):
     return render(request, 'cart/menu_cart.html')
 
 def hx_summary(request):
-    return render(request, 'cart/partials/summary.html')
+    return render(request, 'cart/partials/summary.html', {'next_page': reverse('cart:checkout')})
+    
