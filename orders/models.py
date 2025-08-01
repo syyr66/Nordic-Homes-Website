@@ -37,6 +37,8 @@ class Order(models.Model):
     paid_amount = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=ORDERED)
 
+    def get_total_price(self):
+        return sum(item.price for item in self.items.all())
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
