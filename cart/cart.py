@@ -55,4 +55,4 @@ class Cart(object):
 
     def clear(self):
         self.cart = {}
-        cart.save()
+        self.save()
