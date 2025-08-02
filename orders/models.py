@@ -37,11 +37,21 @@ class Order(models.Model):
     paid_amount = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=ORDERED)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def get_total_price(self):
         return sum(item.price for item in self.items.all())
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} from {self.city}"
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.product.name}, order #{self.order.id}"
