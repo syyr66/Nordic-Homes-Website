@@ -53,12 +53,15 @@
         <div class="block w-full mb-4">
             <div class="ml-auto p-4 space-y-2 text-left text-md inline-block bg-white rounded-md">
                 <div class="w-40 flex justify-between">
-                    <span>Date:</span>
-                    <span>{{ order.creeated_at|date:"d.m.Y" }}</span>
+                    <span class="font-medium">Total:</span>
+                    <div>
+                        <span class="text-purple-700 font-medium">$</span>
+                        <span>{{ order.get_total_price }}</span>
+                    </div>
                 </div>
                 <div class="w-40 flex justify-between">
-                    <span>Total:</span>
-                    <span>${{ order.get_total_price }}</span>
+                    <span class="font-medium">Date:</span>
+                    <span>{{ order.created_at|date:"d.m.Y" }}</span>
                 </div>
             </div>
         </div>
