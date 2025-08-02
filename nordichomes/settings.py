@@ -1,3 +1,8 @@
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,6 +23,8 @@ ALLOWED_HOSTS = []
 SESSION_COOKIE_AGE = 86400
 CART_SESSION_ID = 'cart'
 
+STRIPE_API_KEY_PUBLISHABLE = 'pk_test_51RrOAFIpj5mDfVylE1tvXt5Itb8nakOZKH9jeKSXTM5y4JE0jKSYuC7mwJ2Y5XiaV1iEwG9UYizzo7htrh8AT92i00G7uCMJW2'
+STRIPE_API_KEY_HIDDEN = os.environ.get('STRIPE_API_KEY_HIDDEN')
 
 # Application definition
 
