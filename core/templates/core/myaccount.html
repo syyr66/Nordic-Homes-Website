@@ -35,7 +35,7 @@
                 </div>
                 <div class="w-3/4 pl-6">
                     <div class="flex justify-between mb-6">
-                        <a href="{% url 'products:product_detail' item.product.slug %}">{{ item.product.name }}</a>
+                        <a href="{% url 'products:product_detail' item.product.slug %}" class="text-lg text-left truncate w-44 sm:w-64 lg:w-[30rem]">{{ item.product.name }}</a>
                         <span class="text-gray-500">${{ item.product.price }}</span>
                     </div>
 
