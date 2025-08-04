@@ -59,10 +59,10 @@ def start_order(request):
                     payment_method_types=['card'],
                     line_items=line_items,
                     mode='payment',
-                    success_url=request.build_absolute_uri('/payment/success/?session_id={CHECKOUT_SESSION_ID}'),
+                    success_url=request.build_absolute_uri('/payment/success/'),
                     cancel_url=request.build_absolute_uri('/cart/'),
             )
-            except error as e:
+            except StripeError as e:
                 return render(request, 'cart/checkout.html', {
                     'form': form,
                     'error': str(e),
