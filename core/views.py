@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
@@ -96,4 +97,21 @@ def edit_account(request):
 
     return render(request, 'core/edit_account.html', {'form': form})
 
+
+def success(request):
+    session_id = request.GET.get('session_id')
+
+    if not session_id:
+       return redirect('core:home')
+
+    stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+    except stripe.error.StripeError:
+        return redirect('core:home')
+    
+    if session.payment_status != 'paid':
+        return redirect('core:home')
+
+    return render(request, "core/success.html")
 
