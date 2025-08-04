@@ -59,7 +59,7 @@ def start_order(request):
                     payment_method_types=['card'],
                     line_items=line_items,
                     mode='payment',
-                    success_url=request.build_absolute_uri('/cart/success/'),
+                    success_url=request.build_absolute_uri('/payment/success/?session_id={CHECKOUT_SESSION_ID}'),
                     cancel_url=request.build_absolute_uri('/cart/'),
             )
             except error as e:
