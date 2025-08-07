@@ -26,7 +26,6 @@ def start_order(request):
             order = form.save(commit=False)
             order.user = request.user
             order.save()
-            print(order.id)
 
             line_items = []
             for item in cart:
@@ -65,7 +64,12 @@ def start_order(request):
                 )
                 cart.clear()
 
-            except StripeError as e:
+            except stripe.error.StripeError as e:
+                order_items = OrderItem.objects.filter(order=order)
+                order_items.delete()
+
+                order.delete()
+                
                 return render(request, 'cart/checkout.html', {
                     'form': form,
                     'error': str(e),
