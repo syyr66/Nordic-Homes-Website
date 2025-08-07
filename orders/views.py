@@ -1,5 +1,6 @@
 import stripe
 from django.conf import settings
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
@@ -8,6 +9,8 @@ from .models import Order, OrderItem
 from cart.cart import Cart
 
 
+@transaction.atomic    # Ensuring that the order object is only created if stripe handled the 
+                       # transaction successfully
 def start_order(request):
     cart = Cart(request)
 
@@ -50,8 +53,6 @@ def start_order(request):
                     'quantity': quantity,
                 })
 
-            cart.clear()
-
             stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
 
             try:
@@ -61,7 +62,9 @@ def start_order(request):
                     mode='payment',
                     success_url=request.build_absolute_uri('/payment/success/'),
                     cancel_url=request.build_absolute_uri('/cart/'),
-            )
+                )
+                cart.clear()
+
             except StripeError as e:
                 return render(request, 'cart/checkout.html', {
                     'form': form,
