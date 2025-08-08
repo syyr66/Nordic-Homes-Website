@@ -1,0 +1,52 @@
+name: nordic-homes
+
+services:
+  app:
+    build: .
+    command: gunicorn nordichomes.wsgi:application --bind 0.0.0.0:8000
+    container_name: django-app
+    ports:
+      - 8000:8000
+    volumes: 
+      - .:/app
+      - static_data:/app/static
+      - media_data:/app/media
+    expose:
+      - "8000"
+    environment:
+      - DEBUG=0
+    depends_on:
+      - migrate
+      - collectstatic
+
+  collectstatic:
+    build: .
+    command: python3 manage.py collectstatic --noinput
+    volumes:
+      - .:/app
+      - static_data:/app/static
+    environment:
+      - DEBUG=0
+
+  migrate:
+    build: .
+    command: python3 manage.py migrate
+    volumes:
+      - .:/app
+    environment:
+      - DEBUG=0
+
+  nginx:
+    image: nginx:1.29.0-alpine
+    depends_on: 
+      - app
+    ports: 
+      - "80:80"
+    volumes:
+      - static_data:/var/www/html/static
+      - media_data:/var/www/html/media
+      - ./nginx-conf.d:/etc/nginx/conf.d
+
+volumes:
+  static_data:
+  media_data:
