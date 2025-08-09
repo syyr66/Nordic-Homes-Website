@@ -1,32 +1,33 @@
 import os
-
-from dotenv import load_dotenv
-load_dotenv()
-
 from pathlib import Path
+from dotenv import load_dotenv
+
+from django.core.exceptions import ImproperlyConfigured
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+SECRET_KEY = os.getenv("SECRET_KEY", '')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-v*#w^t&0+h10#xfdhq9k78+(0m(85vttzcj=w8p-#8@_8*(-1l'
+if not SECRET_KEY:
+    raise ImproperlyConfigured("You need to set SECRET_KEY environment variable")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG") == "1"
+DEBUG = os.getenv("DEBUG", '0') == '1'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0']
+allowed_hosts_env = os.getenv('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',') if host.strip()]
+
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 SESSION_COOKIE_AGE = 86400
 CART_SESSION_ID = 'cart'
 
 STRIPE_API_KEY_PUBLISHABLE = 'pk_test_51RrOAFIpj5mDfVylE1tvXt5Itb8nakOZKH9jeKSXTM5y4JE0jKSYuC7mwJ2Y5XiaV1iEwG9UYizzo7htrh8AT92i00G7uCMJW2'
-STRIPE_API_KEY_HIDDEN = os.environ.get('STRIPE_API_KEY_HIDDEN')
-
-# Application definition
+STRIPE_API_KEY_HIDDEN = os.getenv('STRIPE_API_KEY_HIDDEN')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -77,8 +78,12 @@ WSGI_APPLICATION = 'nordichomes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get("POSTGRES_DB"),
+        'USER': os.environ.get("POSTGRES_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
+        'HOST': os.environ.get("DB_HOST"),
+        'PORT': os.environ.get("DB_PORT"),
     }
 }
 
