@@ -7,34 +7,32 @@ services:
     container_name: django-app
     ports:
       - 8000:8000
-    volumes: 
-      - .:/app
+    volumes:
       - static_data:/app/static
       - media_data:/app/media
-    expose:
-      - "8000"
-    environment:
-      - DEBUG=0
+    env_file:
+      - .env
     depends_on:
-      - migrate
-      - collectstatic
+      db:
+        condition: service_healthy
+    restart: unless-stopped
 
-  collectstatic:
-    build: .
-    command: python3 manage.py collectstatic --noinput
+  db:
+    image: postgres:17
+    container_name: postgres-db
     volumes:
-      - .:/app
-      - static_data:/app/static
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      - DEBUG=0
-
-  migrate:
-    build: .
-    command: python3 manage.py migrate
-    volumes:
-      - .:/app
-    environment:
-      - DEBUG=0
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      timeout: 10s
+      start_period: 30s
+    restart: unless-stopped
 
   nginx:
     image: nginx:1.29.0-alpine
@@ -50,3 +48,4 @@ services:
 volumes:
   static_data:
   media_data:
+  postgres_data:
