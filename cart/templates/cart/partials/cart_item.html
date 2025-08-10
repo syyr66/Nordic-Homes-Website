@@ -1,9 +1,7 @@
 <div class="product w-full lg:w-3/4" id="cart-item-{{ item.product.id }}">
     <div class="product mb-6 flex pr-6">
         <a href="{% url 'products:product_detail' item.product.slug %}" class="w-1/4 min-w-[8rem]">
-            {% if item.product.image %}
             <img src="{{ item.product.get_thumbnail }}" alt="{{ item.product.name }}" class="hover:shadow-lg rounded-xl">
-            {% endif %}
         </a>
         <div class="w-3/4 pl-6 text-right">
             <div class="flex justify-between">
