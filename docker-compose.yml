@@ -40,10 +40,15 @@ services:
       - app
     ports: 
       - "80:80"
+      - "443:443"
     volumes:
       - static_data:/var/www/html/static
       - media_data:/var/www/html/media
       - ./nginx-conf.d:/etc/nginx/conf.d
+      - /var/www/certbot:/usr/share/nginx/html:ro
+      - /etc/letsencrypt/live/nordic-homes-shop.online:/etc/letsencrypt/live/nordic-homes-shop.online:ro
+      - /etc/letsencrypt/archive/nordic-homes-shop.online:/etc/letsencrypt/archive/nordic-homes-shop.online:ro
+      - /etc/letsencrypt/renewal:/etc/letsencrypt/renewal:ro
 
 volumes:
   static_data:
