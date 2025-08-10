@@ -10,6 +10,12 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+csrf_trusted_origins_env = os.getenv('CSRF_TRUSTED_ORIGINS', '')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_trusted_origins_env.split(',') if origin.strip()]
+
+if not CSRF_TRUSTED_ORIGINS:
+    raise ImproperlyConfigured("You need to set CSRF_TRUSTED_ORIGINS environment variable")
+
 SECRET_KEY = os.getenv("SECRET_KEY", '')
 
 if not SECRET_KEY:
