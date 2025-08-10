@@ -12,9 +12,9 @@
             <div class="flex tems-center space-x-6">
                 <a href="/" class="py-4 text-lg text-purple-500 font-semibold">Nordic Homes</a>
 
-                <ul class="flex items-center space-x-4">
-                    <li><a href="{% url 'core:shop' %}">Shop</a></li>
-                    <li><a href="#">About</a></li>
+                <ul class="flex items-center sm:space-x-4">
+                    <li class="hidden sm:inline-block"><a href="{% url 'core:shop' %}">Shop</a></li>
+                    <li class="hidden sm:inline-block"><a href="#">About</a></li>
                     {% if request.user.is_authenticated %}
                     <li>
                         <form method="post" action="{% url 'core:logout_user' %}">
