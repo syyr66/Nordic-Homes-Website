@@ -1,4 +1,4 @@
-<div class="product w-full lg:w-3/4" id="cart-item-{{ item.product.id }}">
+<div class="product w-full lg:w-3/4 lg:pr-5" id="cart-item-{{ item.product.id }}">
     <div class="product mb-4 sm:mb-6 flex">
         <a href="{% url 'products:product_detail' item.product.slug %}" class="w-1/4 min-w-[7rem]">
             <img src="{{ item.product.get_thumbnail }}" alt="{{ item.product.name }}" class="hover:shadow-lg rounded-xl">
